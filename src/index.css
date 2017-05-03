@@ -1,0 +1,186 @@
+/*Nav Bar CSS*/
+.navbar-nav > li > a {
+  padding-top:13px !important; padding-bottom:5 !important;
+  height: 50px;
+}
+
+.navbar {min-height: 40px !important;}
+
+.navbar-brand {
+  padding: 0px;
+  height: 50px;
+}
+.navbar-brand >img {
+  height: 100%;
+  padding: 13px;
+  width: auto;
+}
+
+.navbar-toggle {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+/*Side Bar CSS*/
+
+#main {
+  padding-left: 45px;
+  transition: all .4s ease 0s;
+  height: 100%;
+  top: 50px;
+  overflow: auto;
+  position: fixed;
+  width: 100%;
+}
+
+#sidebar-main {
+  margin-left: -130px;
+  left: 45px;
+  width: 130px;
+  position: fixed;
+  top: 50px;
+  bottom: 0px;
+  z-index: 10000;
+  transition: all .4s ease 0s;
+}
+
+#page-content-main {
+  padding:15px;
+  margin-left: 10px;
+  width: 100%;
+  height: auto;
+}
+
+#main.active {
+  padding-left: 130px;
+  width: 100%;
+}
+
+#main.active #sidebar-main {
+  left: 130px;
+}
+
+#page-content-main {
+  width: 100%;
+}
+
+.nav-side-menu {
+  overflow: auto;
+  font-family: verdana;
+  font-size: 11.5px;
+  position: fixed;
+  color: #e1ffff;
+  background-color: #2e353d;
+}
+.nav-side-menu .brand {
+  padding-left: 7px;
+  background-color: #23282e;
+  line-height: 50px;
+  display: block;
+  font-size: 14px;
+}
+
+.nav-side-menu .brand i {
+  position:absolute;
+  right: 15px;
+  line-height: 50px;
+}
+
+.nav-side-menu ul,
+.nav-side-menu li {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+  line-height: 50px;
+  cursor: pointer;
+}
+
+.nav-side-menu ul li {
+  padding-left: 3px;
+  border-left: 4px solid #2e353d;
+  border-bottom: 1px solid #23282e;
+}
+
+.nav-side-menu li a {
+  text-decoration: none;
+  color: #e1ffff;
+}
+
+.nav-side-menu li i {
+  position:absolute;
+  right: 15px;
+  line-height: 50px;
+}
+
+.nav-side-menu li:hover {
+  border-left: 3px solid #d19b3d;
+  background-color: #4f5b69;
+  -webkit-transition: all 1s ease;
+  -moz-transition: all 1s ease;
+  -o-transition: all 1s ease;
+  -ms-transition: all 1s ease;
+  transition: all 1s ease;
+}
+
+.sidebar-bottom {
+  position: absolute;
+  bottom: 0%;
+  width: 100%;
+}
+
+body {
+  margin: 0px;
+  padding: 0px;
+  background-color: rgba(233, 238, 242, 1);
+}
+
+/*Cooler Breadcrumb*/
+.breadcrumb {
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  font-size: 14px;
+}
+
+/*NumPane*/
+
+.lh {
+  line-height: 1;
+}
+
+.pt {
+  padding-top: 10px !important;
+}
+
+.text-thin {
+    font-weight: 100;
+}
+
+.mv {
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+}
+
+.text-muted {
+  color: #909FA7;
+}
+
+#div-line {
+  padding-top: 30px;
+  width: 100%;
+  height: 350px;
+  margin-bottom: -35px;
+}
+
+#div-doughnut{
+  width: 100%;
+  height: 166px;
+}
+
+#map {
+  position:absolute;
+  top:0;
+  bottom:0;
+  
+  width:100%;
+}
