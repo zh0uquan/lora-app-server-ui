@@ -1,16 +1,10 @@
-import React, { Component } from "react";
+import React from "react";
 import Pane from "./base/Pane";
 import LineBlock from "./base/LineBlock";
 import NumBlock from "./base/NumBlock";
 import DoughnutBlock from "./base/DoughnutBlock";
 
-class Overview extends Component {
-  constructor()  {
-    super();
-  }
-
-  render () {
-    return (
+export const Overview = () => (
       <div>
         <div id="#pane-numbers" className="col-lg-9 col-md-12">
           <Pane>
@@ -40,8 +34,4 @@ class Overview extends Component {
           </Pane>
         </div>
     </div>
-    );
-  }
-}
-
-export default Overview;
+);

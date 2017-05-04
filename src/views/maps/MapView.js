@@ -1,10 +1,6 @@
 import React from 'react';
-import ReactMapboxGl, { Layer, Feature, Popup } from "react-mapbox-gl";
-import assign from 'object-assign';
-import Immutable from 'immutable';
-
-import Pane from '../../components/base/Pane';
-import MapGateways from "./MapGateways";
+import ReactMapboxGl from "react-mapbox-gl";
+import GatewayLayer from "./GatewayLayer";
 
 class MapView extends React.Component {
   constructor() {
@@ -35,13 +31,7 @@ class MapView extends React.Component {
           containerStyle={colorStyle}
           center={center}
           >
-          <MapGateways/>
-          <Popup coordinates={[13.3866103, 52.5170092]}
-            offset={{
-                'bottom-left': [12, -38],  'bottom': [0, -38], 'bottom-right': [-12, -38]
-              }}>
-            <p>hello</p>
-          </Popup>
+          <GatewayLayer/>
         </ReactMapboxGl>
       );
   }
