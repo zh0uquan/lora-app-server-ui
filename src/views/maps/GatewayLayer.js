@@ -83,7 +83,7 @@ class GatewayLayer extends Component {
               onClick={this._onClickPopup.bind(this)}>
               <p className="text-popup"><strong>{currentPopup.name}</strong></p>
               <p className="text-popup">{currentPopup.description}</p>
-              <p className="text-popup">Status: <i className="fa fa-circle" aria-hidden="true" style={{color:"green"}}></i></p>
+              <p className="text-popup">Status: <i className="fa fa-circle" aria-hidden="true" style={{color:"#76FF03"}}></i></p>
             </Popup>
           }
         </div>
@@ -93,10 +93,3 @@ class GatewayLayer extends Component {
 
 
 export default GatewayLayer;
-// <GatewayPopup
-//   style={{display: currentPopup.popupShowLabel? "true": "none" }}
-//   coordinates={currentPopup.coordinates}
-//   name={currentPopup.name}
-//   description={currentPopup.description}
-//   onClick = {this._onClickPopup.bind(this, !currentPopup.popupShowLabel)}
-// />

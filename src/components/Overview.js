@@ -4,7 +4,9 @@ import LineBlock from "./base/LineBlock";
 import NumBlock from "./base/NumBlock";
 import DoughnutBlock from "./base/DoughnutBlock";
 
-export const Overview = () => (
+export default class  extends React.Component {
+  render () {
+    return (
       <div>
         <div id="#pane-numbers" className="col-lg-9 col-md-12">
           <Pane>
@@ -34,4 +36,6 @@ export const Overview = () => (
           </Pane>
         </div>
     </div>
-);
+  );
+  }
+}

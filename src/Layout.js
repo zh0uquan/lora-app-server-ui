@@ -28,9 +28,7 @@ class Layout extends Component {
       active: !this.state.active,
     });
   }
-  // <div className="row">
-  //   {this.props.children}
-  // </div>
+
   render() {
     return (
       <div>
