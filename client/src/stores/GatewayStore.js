@@ -12,7 +12,6 @@ class GatewayStore extends EventEmitter {
       if(typeof(responseData.result) === "undefined") {
         callbackFunc(0, []);
       } else {
-        console.log(responseData.totalCount, responseData.result)
         callbackFunc(responseData.result);
       }
     })

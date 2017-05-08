@@ -23,7 +23,7 @@
     "whatwg-fetch": "^1.0.0"
   },
   "scripts": {
-    "start": "PORT=8888 react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
@@ -31,5 +31,5 @@
   "eslintConfig": {
     "extends": "./node_modules/react-scripts/config/eslint.js"
   },
-  "proxy": "https://localhost:8080/"
+  "proxy": "http://localhost:8899"
 }

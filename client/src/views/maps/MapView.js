@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactMapboxGl from "react-mapbox-gl";
 import GatewayLayer from "./GatewayLayer";
+import NodeLayer from "./NodeLayer";
 
 class MapView extends React.Component {
   constructor() {
@@ -32,6 +33,7 @@ class MapView extends React.Component {
           center={center}
           >
           <GatewayLayer/>
+          <NodeLayer/>
         </ReactMapboxGl>
       );
   }

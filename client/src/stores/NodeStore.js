@@ -26,6 +26,16 @@ class NodeStore extends EventEmitter {
       .catch(errorHandler);
   }
 
+  getNodeLocation(callbackFunc) {
+    fetch("/api/nodes/location", {headers: sessionStore.getHeader()})
+      .then(checkStatus)
+      .then((response) => response.json())
+      .then((responseData) => {
+        callbackFunc(responseData);
+      })
+      .catch(errorHandler)
+  }
+
   getNode(applicationID, name, callbackFunc) {
     fetch("/api/nodes/"+name, {headers: sessionStore.getHeader()})
       .then(checkStatus)
@@ -87,7 +97,7 @@ class NodeStore extends EventEmitter {
   }
 
   getRandomDevAddr(callbackFunc) {
-    fetch("/api/nodes/getRandomDevAddr", {method: "POST", headers: sessionStore.getHeader()}) 
+    fetch("/api/nodes/getRandomDevAddr", {method: "POST", headers: sessionStore.getHeader()})
       .then(checkStatus)
       .then((response) => response.json())
       .then((responseData) => {

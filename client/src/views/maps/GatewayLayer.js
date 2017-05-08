@@ -4,9 +4,6 @@ import { Layer, Feature, Popup } from "react-mapbox-gl";
 import GatewayStore from "../../stores/GatewayStore";
 
 class GatewayLayer extends Component {
-  static contextTypes = {
-    router: React.PropTypes.object.isRequired
-  };
 
   constructor() {
     super();
@@ -65,7 +62,6 @@ class GatewayLayer extends Component {
         onClick={this._onClickMarker.bind(this, gw)}
       />
     );
-
     return (
         <div>
           <Layer
