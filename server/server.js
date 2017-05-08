@@ -13,6 +13,7 @@ app.use(bodyParser.urlencoded({extended: false}))
 const router = express.Router()
 
 // api for history records
+<<<<<<< HEAD
 router.get('/api/nodes/location', (req, res) => {
   console.log(`reading this from env > ${process.env.MY_VARIABLE}`)
   pool.connect().then(client => {
@@ -22,6 +23,15 @@ router.get('/api/nodes/location', (req, res) => {
       var json = JSON.stringify(result.rows);
       res.writeHead(200, {'content-type':'application/json', 'content-length':Buffer.byteLength(json)});
       res.end(json);
+=======
+router.get('/api/history/nodes', (req, res) => {
+  console.log(`reading this from env > ${process.env.MY_VARIABLE}`)
+  pool.connect().then(client => {
+    client.query('select time, gw_rssi,applicationid,gw_snr,tx_adr,battery_voltage from packet;').then(result => {
+      client.release()
+      console.log('successfully query', result)
+      res.json(result)
+>>>>>>> 4c9c3bd326d7063792ae088336ac4cd829d93e1a
     })
     .catch(e => {
       client.release()
@@ -35,7 +45,11 @@ router.get('/api/nodes/location', (req, res) => {
 // redirect to golang server
 router.all('*', (req, res) => {
   console.log(`redirect to golang server`)
+<<<<<<< HEAD
   apiProxy.web(req, res, {target: "https://localhost:8080", secure: false});
+=======
+  swaggerProxy.web(req, res, {target: "https://localhost:8080", secure: false});
+>>>>>>> 4c9c3bd326d7063792ae088336ac4cd829d93e1a
 })
 
 app.use(router)

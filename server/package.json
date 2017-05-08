@@ -11,7 +11,10 @@
     "babel-preset-stage-0": "^6.22.0",
     "body-parser": "^1.16.0",
     "dotenv": "^4.0.0",
-    "express": "^4.14.1"
+    "express": "^4.14.1",
+    "http-proxy": "^1.16.2",
+    "pg": "^6.1.5",
+    "pg-pool": "^1.7.1"
   },
   "devDependencies": {
     "babel-register": "^6.22.0",
