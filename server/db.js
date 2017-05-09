@@ -16,7 +16,3 @@ const config = {
 const pool = new Pool(config)
 
 export default pool;
-<<<<<<< HEAD
-=======
-//
->>>>>>> 4c9c3bd326d7063792ae088336ac4cd829d93e1a
