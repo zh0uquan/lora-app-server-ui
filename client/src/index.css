@@ -21,13 +21,18 @@
   margin-bottom: 0px;
 }
 
+.navbar-fixed-top {
+  position: absolute;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
 /*Side Bar CSS*/
 
 #main {
   padding-left: 45px;
   transition: all .4s ease 0s;
   height: 100%;
-  top: 50px;
+  top: 0px;
   overflow: auto;
   position: fixed;
   width: 100%;
@@ -38,7 +43,7 @@
   left: 45px;
   width: 130px;
   position: fixed;
-  top: 50px;
+  top: 0px;
   bottom: 0px;
   z-index: 10000;
   transition: all .4s ease 0s;
@@ -49,6 +54,7 @@
   margin-left: 10px;
   width: 100%;
   height: auto;
+  position: relative;
 }
 
 #main.active {
@@ -128,7 +134,12 @@
   width: 100%;
 }
 
+#content {
+  padding: 50px;
+}
+
 body {
+  top:50px;
   margin: 0px;
   padding: 0px;
   background-color: rgba(233, 238, 242, 1);

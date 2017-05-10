@@ -32,15 +32,19 @@ class Layout extends Component {
   render() {
     return (
       <div>
-        <Navbar />
         <div className="container-fluid">
           <div className="row">
             <div id="main" className={"col-sm-12 " + (this.state.active ? "active" : "")}>
               <Sidebar onToggleSidebar={this.handleToggleSidebar}/>
-              <RightPane onClick={this.onClick}>
-                <Errors />
-                {this.props.children}
-              </RightPane>
+              <div className="row">
+                <RightPane onClick={this.onClick}>
+                  <Navbar />
+                  <div id="content">
+                    <Errors />
+                    {this.props.children}
+                  </div>
+                </RightPane>
+              </div>
             </div>
           </div>
         </div>
