@@ -18,9 +18,6 @@ class MapView extends React.Component {
 
   }
 
-  updateLayer() {
-
-  }
 
   render () {
     var {colorStyle, center} = this.state;
@@ -31,8 +28,8 @@ class MapView extends React.Component {
           containerStyle={colorStyle}
           center={center}
           >
-          <GatewayLayer/>
           <NodeLayer/>
+          <GatewayLayer/>
         </ReactMapboxGl>
       );
   }

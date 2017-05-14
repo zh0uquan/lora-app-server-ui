@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layer, Feature } from "react-mapbox-gl";
+import { Layer, Feature, Popup } from "react-mapbox-gl";
 
 import { Panel } from 'react-bootstrap';
 import NodeStore from "../../stores/NodeStore";
@@ -19,7 +19,8 @@ class NodeLayer extends Component {
       message: [],
       circleRadius: 4.5,
       displayNodes:[],
-      realtimeNodes: []
+      realtimeNodes: [],
+      currentPopup: null
     };
 
     this._watch();
@@ -35,6 +36,8 @@ class NodeLayer extends Component {
 
   updateMapNodes(props) {
     NodeStore.getNodeLocation((nodes) => {
+      console.log(nodes.length)
+
       this.setState({
         nodes: nodes,
         displayNodes: nodes
@@ -54,14 +57,14 @@ class NodeLayer extends Component {
       // console.log(evt.data);
       const nodes = JSON.parse(evt.data);
       var node = nodes[Math.floor(Math.random()*nodes.length)];
-      console.log(node);
+      // console.log(node);
       this.setState({
         realtimeNodes: [node]
       });
     }
   }
 
-  _filterNodes(range) {
+  _filterNodesByRange(range) {
     // console.log(moment().add(range[0], 'days') < moment(this.state.nodes[0].time));
     // console.log(moment(this.state.nodes[0].time) < moment().add(range[1], 'days'));
 
@@ -74,14 +77,39 @@ class NodeLayer extends Component {
     // console.log(displayNodes)
   }
 
+  _onClickMarker(node) {
+    console.log(node);
+    if (this.state.currentPopup) {
+      this.setState({
+        currentPopup: null
+      })
+    } else{
+      this.setState({
+        currentPopup: {
+          coordinates: [node.location.y, node.location.x],
+          name: node.name,
+          description: node.description,
+          popupShowLabel: !this.state.popupShowLabel
+        }
+      });
+    }
+  }
+
+  _onClickPopup() {
+    this.setState({
+      currentPopup: null
+    })
+  }
+
   render() {
-    const {displayNodes, realtimeNodes, circleRadius} = this.state;
+    const {displayNodes, realtimeNodes, circleRadius, currentPopup} = this.state;
 
     const displayNodesFeatures = displayNodes.map((node, i) =>
       <Feature
         key={node.time}
         coordinates={[node.location.y, node.location.x]}
         properties={{rssi: node.gw_rssi}}
+        onClick={this._onClickMarker.bind(this, node)}
       />
     );
 
@@ -92,31 +120,29 @@ class NodeLayer extends Component {
         properties={{rssi: node.gw_rssi}}
       />
     );
-    //
 
     // remeber never mix manual Feature and dynamic List
     return (
       <div>
         <Layer
-          id="clusters"
-          type="circle"
-          paint={{
-            "circle-radius": circleRadius,
-            "circle-color": {
-                  property: "rssi",
-                  stops: [
-                      [-300, "#1a237e"],
-                      [-120, "#18FFFF"],
-                      [-115, "#00E676"],
-                      [-110, "#FFEB3B"],
-                      [-105, "#FF9800"],
-                      [-100, "#FF5722"],
-                  ]
-            },
-            "circle-opacity": .8 }}>
+          id="cluster"
+          type="symbol"
+
           {displayNodesFeatures}
           {realtimeNodesFeatures}
         </Layer>
+        {currentPopup &&
+          <Popup
+            style={{display: currentPopup.popupShowLabel? "true": "none" }}
+            coordinates={currentPopup.coordinates}
+            anchor={"bottom"}
+            offset={10}
+            onClick={this._onClickPopup.bind(this)}>
+            <p className="text-popup"><strong>{currentPopup.name}</strong></p>
+            <p className="text-popup">{currentPopup.description}</p>
+            <p className="text-popup">Status: <i className="fa fa-circle" aria-hidden="true" style={{color:"#76FF03"}}></i></p>
+          </Popup>
+        }
         <div id="time-slider" className="container-fluid">
           <div className="row">
             <div className="col-md-offset-3 col-md-6 col-xs-offset-1 col-xs-9">
@@ -130,7 +156,7 @@ class NodeLayer extends Component {
                         max={0}
                         defaultValue={[-30, 0]}
                         tipFormatter={value => `${value} days`}
-                        onChange={this._filterNodes.bind(this)} />
+                        onChange={this._filterNodesByRange.bind(this)} />
                     </div>
                   </div>
               </div>
