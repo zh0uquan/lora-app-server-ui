@@ -51,6 +51,7 @@ import 'bootswatch/paper/bootstrap.css';
 import 'react-select/dist/react-select.css';
 import 'leaflet/dist/leaflet.css';
 import 'font-awesome/css/font-awesome.css';
+import 'rc-slider/assets/index.css';
 import './index.css';
 
 

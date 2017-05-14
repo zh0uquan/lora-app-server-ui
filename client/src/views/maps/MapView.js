@@ -7,8 +7,7 @@ class MapView extends React.Component {
   constructor() {
     super();
     const colorStyle = {
-      top: "-15px",
-      left: "-45px",
+      margin: '-15px',
       height: "100vh",
       width: "100vw",
     }
