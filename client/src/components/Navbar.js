@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import dispatcher from "../dispatcher";
 import SessionStore from "../stores/SessionStore";
 
-import Logo from "../../public/images/Logo.png";
+import Logo from "../../public/images/Logo_white.png";
 
 class Navbar extends Component {
   static contextTypes = {
