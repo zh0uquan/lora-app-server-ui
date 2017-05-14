@@ -14,13 +14,16 @@
     "history": "^4.2.0",
     "leaflet": "^1.0.3",
     "moment": "^2.18.1",
+    "rc-slider": "^7.0.6",
     "react": "^15.3.1",
+    "react-bootstrap": "^0.31.0",
     "react-chartjs-2": "^2.0.5",
     "react-dom": "^15.3.1",
     "react-leaflet": "^1.1.4",
     "react-router": "^2.8.1",
     "react-select": "^1.0.0-rc.3",
-    "whatwg-fetch": "^1.0.0"
+    "whatwg-fetch": "^1.0.0",
+    "ws": "^2.3.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -31,5 +34,9 @@
   "eslintConfig": {
     "extends": "./node_modules/react-scripts/config/eslint.js"
   },
-  "proxy": "http://localhost:8899"
+  "proxy": "http://localhost:8899",
+  "optionalDependencies": {
+    "bufferutil": "^3.0.0",
+    "utf-8-validate": "^3.0.1"
+  }
 }
