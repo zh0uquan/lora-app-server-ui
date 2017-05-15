@@ -39,6 +39,7 @@ class GatewayLayer extends Component {
         currentPopup: {
           coordinates: [gw.longitude, gw.latitude],
           name: gw.name,
+          mac: gw.mac,
           description: gw.description,
           popupShowLabel: !this.state.popupShowLabel
         }
@@ -79,6 +80,7 @@ class GatewayLayer extends Component {
               onClick={this._onClickPopup.bind(this)}>
               <p className="text-popup"><strong>{currentPopup.name}</strong></p>
               <p className="text-popup">{currentPopup.description}</p>
+              <p className="text-popup">MAC: {currentPopup.mac}</p>
               <p className="text-popup">Status: <i className="fa fa-circle" aria-hidden="true" style={{color:"#76FF03"}}></i></p>
             </Popup>
           }
