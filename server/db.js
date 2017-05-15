@@ -1,7 +1,7 @@
 import Pool from 'pg-pool'
 import url from 'url'
 
-const params = url.parse("postgres://loraserver:loraserver@172.17.0.4:5432/loraserver");
+const params = url.parse(`${process.env.PSQL_URL}`);
 const auth = params.auth.split(':');
 
 const config = {

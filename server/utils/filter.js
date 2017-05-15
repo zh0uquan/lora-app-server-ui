@@ -1,20 +1,18 @@
 import moment from 'moment'
-
-const precision = (node) => {
-  node.coordinates = [node.location.y.toFixed(5), node.location.x.toFixed(5)]
-  return node
-}
+import processNode from './processNode.js'
 
 const valuesToArray = (iterator) => Array.from(iterator.values())
 
 const filter = (nodes) => {
   let hashtable = new Map()
   for (let node of nodes) {
-    node = precision(node)
+    node = processNode(node)
     hashtable.set(
       JSON.stringify(node.coordinates), (hashtable.get(JSON.stringify(node.coordinates)) || []).concat(node))
   }
 
+  // get the lastest node infomation(rssi etc) of coordations
+  // this should be optimazed by the gateway and device
   const now = moment({})
   for (let corrd of hashtable.keys()) {
     let dateDict = new Map()
