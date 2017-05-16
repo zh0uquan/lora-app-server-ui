@@ -6,6 +6,7 @@ import Slider from 'rc-slider';
 import {Panel} from 'react-bootstrap';
 import Drawer from '../../components/Drawer';
 import NodeStore from "../../stores/NodeStore";
+import GatewayStore from "../../stores/GatewayStore";
 
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
 const Range = createSliderWithTooltip(Slider.Range);
@@ -16,14 +17,17 @@ class NodeLayer extends Component {
     super();
     this.state = {
       nodes: [],
-      message: [],
       circleRadius: 4.5,
       displayNodes:[],
       currentPopup: null,
       visibleDrawer: false,
-      lists: []
+      gateways: null
     };
 
+  }
+
+  componentWillMount() {
+    this.updateMapGateway(this.props);
   }
 
   componentDidMount() {
@@ -34,10 +38,46 @@ class NodeLayer extends Component {
     this.updateMapNodes(nextProps);
   }
 
+  updateMapGateway(props) {
+    GatewayStore.listAll((gws) => {
+      var gateways = new Map();
+      for (let gw of gws) {
+        gateways.set(gw.mac, [gw.longitude, gw.latitude])
+      }
+      this.setState({
+        gateways: gateways,
+      });
+    });
+  }
+
   updateMapNodes(props) {
     NodeStore.getNodeLocation((nodes) => {
-      console.log(nodes.length)
+      for (let node of nodes) {
+        if (this.state.gateways.get(node.gw_mac)) {
+          var earthRadius = 6371000;
 
+          var [lon1, lat1 ] = this.state.gateways.get(node.gw_mac)
+          var [lon2, lat2 ] = node.coordinates
+
+          var latDelta = (lat2 - lat1) * Math.PI / 180
+          var lonDelta = (lon2 - lon1) * Math.PI / 180
+
+          var lat1Rad = lat1 * Math.PI / 180
+          var lat2Rad = lat2 * Math.PI / 180
+
+          var a = Math.sin(latDelta / 2) * Math.sin(latDelta / 2) +
+                  Math.sin(lonDelta / 2) * Math.sin(lonDelta / 2) *
+                  Math.cos(lat1Rad) * Math.cos(lat2Rad)
+
+          var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+          node.distance = Math.floor(earthRadius * c)
+          node.gateway = this.state.gateways.get(node.gw_mac)
+
+        } else{
+          node.distance = 0
+          node.gateway = "not avaliable"
+        }
+      }
       this.setState({
         nodes: nodes,
         displayNodes: nodes
@@ -74,7 +114,10 @@ class NodeLayer extends Component {
           coordinates: node.coordinates,
           name: node.time,
           deveui: node.deveui,
-          description: node.gw_rssi,
+          rssi: node.gw_rssi,
+          distance: node.distance,
+          snr: node.gw_snr,
+          gateway: node.gateway,
           popupShowLabel: !this.state.popupShowLabel
         }
       });
@@ -83,7 +126,7 @@ class NodeLayer extends Component {
 
 
   render() {
-    const {displayNodes, circleRadius, currentPopup, lists} = this.state;
+    const {displayNodes, circleRadius, currentPopup} = this.state;
 
     const displayNodesFeatures = displayNodes.map((node, i) =>
       <Feature
@@ -124,9 +167,11 @@ class NodeLayer extends Component {
             offset={10}
             onClick={this._onClickPopup.bind(this)}>
             <p className="text-popup"><strong>Time Send: {currentPopup.name}</strong></p>
-            <p className="text-popup">Signal Strength: {currentPopup.description}</p>
+            <p className="text-popup">Signal Strength: {currentPopup.rssi}</p>
             <p className="text-popup">Deveui: {currentPopup.deveui}</p>
-            <p className="text-popup">Status: <i className="fa fa-circle" aria-hidden="true" style={{color:"#76FF03"}}></i></p>
+            <p className="text-popup">SNR: {currentPopup.snr}</p>
+            <p className="text-popup">Distance: {currentPopup.distance}</p>
+            <p className="text-popup">Gateway: {currentPopup.gateway}</p>
           </Popup>
         }
         <div id="time-slider" className="container-fluid">

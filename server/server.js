@@ -3,13 +3,13 @@ import express from 'express'
 import proxy from 'http-proxy'
 import path from 'path'
 import pool from './db.js'
+import https from 'https'
 import http from 'http'
 import WebSocket from 'ws'
 import cors from 'cors'
 import url from 'url'
 import processNode from './utils/processNode.js'
 import filterNodes from './utils/filter.js'
-import PGPubsub from 'pg-pubsub'
 import config from 'config'
 
 const app = express()
@@ -42,6 +42,7 @@ app.get('/api/nodes/location', (req, res) => {
 // redirect to golang server
 app.all('*', (req, res) => {
   console.log(`redirect to golang server`)
+  config.get('proxy').agent = https.agent
   apiProxy.web(req, res, config.get('proxy'))
 })
 
@@ -51,30 +52,35 @@ app.set('port', (process.env.PORT || 8899))
 const server = http.createServer(app)
 const wss = new WebSocket.Server({ server })
 
+wss.broadcast = (data) => {
+  wss.clients.forEach( (client) => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(data)
+    }
+  });
+};
+
+pool.connect().then(client => {
+  client.on('notification', (msg) => {
+    if (msg.channel === 'packet_update') {
+      var node = processNode(msg.payload.new_val)
+      wss.broadcast(node)
+    }
+  })
+  client.query("LISTEN packet_update");
+});
+
 wss.on('connection', (ws) => {
   const location = url.parse(ws.upgradeReq.url, true)
-  ws.isAlive = true;
   // You might use location.query.access_token to authenticate or share sessions
   // or ws.upgradeReq.headers.cookie (see http://stackoverflow.com/a/16395220/151312)
-  var pubsubInstance = new PGPubsub(config.get('dbConfig.url'))
-  pubsubInstance.addChannel('packet_update')
-
-  pubsubInstance.once('packet_update', (channelPayload) => {
-    // Process the payload
-    // console.log(channelPayload.new_val)
-    var node = processNode(channelPayload.new_val)
-    ws.send(JSON.stringify((channelPayload)))
-  });
-
   ws.on('message', (message) => {
     console.log('received: %s', message)
   });
 
   ws.on('close', (message) => {
     console.log('received: %s', message)
-    pubsubInstance.close()
   });
-
 });
 
 server.listen(app.get('port'), () => {
