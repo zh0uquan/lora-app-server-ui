@@ -4,7 +4,9 @@ const bufferToStr = (buff) => {
 }
 
 const processNode = (node) => {
-  node.coordinates = [node.location.y.toFixed(5), node.location.x.toFixed(5)]
+  if (node.location) {
+    node.coordinates = [node.location.y.toFixed(5), node.location.x.toFixed(5)]
+  }
   node.gw_mac = bufferToStr(node.gw_mac)
   node.deveui = bufferToStr(node.deveui)
   return node
