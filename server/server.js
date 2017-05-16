@@ -10,6 +10,7 @@ import url from 'url'
 import processNode from './utils/processNode.js'
 import filterNodes from './utils/filter.js'
 import PGPubsub from 'pg-pubsub'
+import config from 'config'
 
 const app = express()
 const apiProxy = proxy.createProxyServer()
@@ -20,7 +21,6 @@ app.use(bodyParser.urlencoded({extended: false}))
 
 // api for history records
 app.get('/api/nodes/location', (req, res) => {
-  console.log(`reading this from env > ${process.env.MY_VARIABLE}`)
   pool.connect().then(client => {
     client.query('select * from packet where location is not null').then(result => {
       client.release()
@@ -42,7 +42,7 @@ app.get('/api/nodes/location', (req, res) => {
 // redirect to golang server
 app.all('*', (req, res) => {
   console.log(`redirect to golang server`)
-  apiProxy.web(req, res, {target: "https://localhost:8080", secure: false})
+  apiProxy.web(req, res, config.get('proxy'))
 })
 
 app.set('port', (process.env.PORT || 8899))
@@ -56,8 +56,8 @@ wss.on('connection', (ws) => {
   ws.isAlive = true;
   // You might use location.query.access_token to authenticate or share sessions
   // or ws.upgradeReq.headers.cookie (see http://stackoverflow.com/a/16395220/151312)
-  var pubsubInstance = new PGPubsub(`${process.env.PSQL_URL}`);
-  pubsubInstance.addChannel('packet_update');
+  var pubsubInstance = new PGPubsub(config.get('dbConfig.url'))
+  pubsubInstance.addChannel('packet_update')
 
   pubsubInstance.once('packet_update', (channelPayload) => {
     // Process the payload

@@ -1,0 +1,10 @@
+{
+  "dbConfig": {
+    "url" : "postgres://loraserver:loraserver@172.17.0.4:5432/loraserver"
+  },
+
+  "proxy" : {
+    "target": "https://localhost:8080",
+    "secure": false
+  }
+}

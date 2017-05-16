@@ -32,9 +32,7 @@ class DoughnutBlock extends React.Component {
   }
 
   componentWillMount() {
-		setInterval(() => {
-			this.setState(getState());
-		}, 5000);
+		this.setState(getState());
 	}
 
 

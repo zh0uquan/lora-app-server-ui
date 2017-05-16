@@ -23,8 +23,7 @@ class RealtimeNodeLayer extends Component {
   }
 
   _watch(props) {
-
-    const ws = new WebSocket('ws://207.154.240.83:8888');
+    const ws = new WebSocket(window.location.origin.replace('http', 'ws'));
 
     ws.onopen = () => {
       ws.send('hello world');
@@ -32,6 +31,8 @@ class RealtimeNodeLayer extends Component {
 
     ws.onmessage = (evt) => {
       const nodes = JSON.parse(evt.data);
+      console.log(nodes)
+
       var node = nodes[Math.floor(Math.random()*nodes.length)];
       // console.log(node);
       this.setState({

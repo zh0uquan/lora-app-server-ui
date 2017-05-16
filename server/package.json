@@ -19,7 +19,9 @@
     "http-proxy": "^1.16.2",
     "pg": "^6.1.5",
     "pg-pool": "^1.7.1",
-    "ws": "^2.3.1"
+    "ws": "^2.3.1",
+    "moment": "^2.18.1",
+    "pg-pubsub": "^0.3.0"
   },
   "devDependencies": {
     "babel-register": "^6.22.0",
@@ -27,7 +29,7 @@
   },
   "scripts": {
     "build": "babel . --ignore node_modules,build --out-dir build",
-    "start": "nodemon -r dotenv/config -r babel-register server.js",
-    "start:prod": "node -r dotenv/config -r build/server.js"
+    "start": "nodemon -r babel-register server.js",
+    "start-prod": "node -r dotenv/config -r ./build/server.js"
   }
 }
