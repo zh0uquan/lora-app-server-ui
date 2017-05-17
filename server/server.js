@@ -15,10 +15,6 @@ import config from 'config'
 const app = express()
 const apiProxy = proxy.createProxyServer()
 
-app.use(cors())
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: false}))
-
 // api for history records
 app.get('/api/nodes/location', (req, res) => {
   pool.connect().then(client => {
@@ -63,8 +59,10 @@ wss.broadcast = (data) => {
 pool.connect().then(client => {
   client.on('notification', (msg) => {
     if (msg.channel === 'packet_update') {
-      var node = processNode(msg.payload.new_val)
-      wss.broadcast(node)
+      var node = processNode(JSON.parse(msg.payload).new_val)
+      if (node !== null) {
+        wss.broadcast(JSON.stringify(node))
+      }
     }
   })
   client.query("LISTEN packet_update");

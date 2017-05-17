@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import { Layer, Feature, Popup } from "react-mapbox-gl";
 import Slider from 'rc-slider';
 import {Panel} from 'react-bootstrap';
-import Drawer from '../../components/Drawer';
 import NodeStore from "../../stores/NodeStore";
 import GatewayStore from "../../stores/GatewayStore";
 
@@ -71,11 +70,8 @@ class NodeLayer extends Component {
 
           var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
           node.distance = Math.floor(earthRadius * c)
-          node.gateway = this.state.gateways.get(node.gw_mac)
-
         } else{
           node.distance = 0
-          node.gateway = "not avaliable"
         }
       }
       this.setState({
@@ -112,12 +108,13 @@ class NodeLayer extends Component {
       this.setState({
         currentPopup: {
           coordinates: node.coordinates,
-          name: node.time,
+          name: moment(node.time).format('YYYY-MM-DD HH:mm:ss'),
           deveui: node.deveui,
           rssi: node.gw_rssi,
           distance: node.distance,
           snr: node.gw_snr,
-          gateway: node.gateway,
+          radio: 'SF'+node.tx_spreadfactor+'BW'+node.tx_bandwidth,
+          gateway: node.gw_mac,
           popupShowLabel: !this.state.popupShowLabel
         }
       });
@@ -170,7 +167,8 @@ class NodeLayer extends Component {
             <p className="text-popup">Signal Strength: {currentPopup.rssi}</p>
             <p className="text-popup">Deveui: {currentPopup.deveui}</p>
             <p className="text-popup">SNR: {currentPopup.snr}</p>
-            <p className="text-popup">Distance: {currentPopup.distance}</p>
+            <p className="text-popup">Radio: {currentPopup.radio}</p>
+            <p className="text-popup">Distance: {currentPopup.distance}m</p>
             <p className="text-popup">Gateway: {currentPopup.gateway}</p>
           </Popup>
         }

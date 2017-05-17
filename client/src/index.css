@@ -42,7 +42,6 @@
   margin-left: -130px;
   left: 45px;
   width: 130px;
-  position: fixed;
   top: 0px;
   bottom: 0px;
   z-index: 10000;
@@ -50,6 +49,7 @@
 }
 
 #page-content-main {
+  position: fixed;
   padding:15px;
   margin-left: 10px;
   width: 100%;
@@ -195,7 +195,7 @@ p.text-popup{
 
 #time-slider {
   z-index: 100;
-  position: absolute;
+  position: fixed;
   bottom:50px;
   width: 100%;
   text-align: center;
@@ -206,33 +206,39 @@ p.text-popup{
   text-align: center;
 }
 
-#right-pane {
+#drawer-container {
   position: absolute;
-  height: 100%;
   z-index: 100;
 }
 
-.Drawer {
-  position: absolute;
-  top: 0;
+#drawer {
+  position: fixed;
+  top: 45px;
   right: 0;
-  z-index: 100;
-  width: 100%;
-  height: 100vh;
+  width: inherit;
+  height: 100%;
   transform: translate(100%, 0);
   will-change: transform, visibility;
-  background-color: rgba(233, 238, 242, 1);
+  background-color: #FFF;
   -webkit-box-shadow: -5px 0px 5px -5px rgba(0,0,0,0.55);
   -moz-box-shadow: -5px 0px 5px -5px rgba(0,0,0,0.55);
   box-shadow: -5px 0px 5px -5px rgba(0,0,0,0.55);
   outline:0 !important;
 }
 
-.Drawer[display="none"] {
+#drawer[display="none"] {
   transform: translate(0, 0);
   transition: transform 0.3s linear;
+  position: fixed;
 }
 
-.Drawer[display="true"] {
+#drawer[display="true"] {
   transition: visibility 0s linear 0.3s transform 0.3s linear;
+  position: fixed;
+}
+
+
+#realtime-info p{
+  margin: 0px;
+  padding: 0px;
 }
