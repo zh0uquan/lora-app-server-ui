@@ -6,6 +6,7 @@ import Slider from 'rc-slider';
 import {Panel} from 'react-bootstrap';
 import NodeStore from "../../stores/NodeStore";
 import GatewayStore from "../../stores/GatewayStore";
+import { distance } from '../../utils/distance'
 
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
 const Range = createSliderWithTooltip(Slider.Range);
@@ -30,6 +31,7 @@ class NodeLayer extends Component {
   }
 
   componentDidMount() {
+    // const ws = new WebSocket(window.location.origin.replace('http', 'ws'));
     this.updateMapNodes(this.props);
   }
 
@@ -53,23 +55,7 @@ class NodeLayer extends Component {
     NodeStore.getNodeLocation((nodes) => {
       for (let node of nodes) {
         if (this.state.gateways.get(node.gw_mac)) {
-          var earthRadius = 6371000;
-
-          var [lon1, lat1 ] = this.state.gateways.get(node.gw_mac)
-          var [lon2, lat2 ] = node.coordinates
-
-          var latDelta = (lat2 - lat1) * Math.PI / 180
-          var lonDelta = (lon2 - lon1) * Math.PI / 180
-
-          var lat1Rad = lat1 * Math.PI / 180
-          var lat2Rad = lat2 * Math.PI / 180
-
-          var a = Math.sin(latDelta / 2) * Math.sin(latDelta / 2) +
-                  Math.sin(lonDelta / 2) * Math.sin(lonDelta / 2) *
-                  Math.cos(lat1Rad) * Math.cos(lat2Rad)
-
-          var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-          node.distance = Math.floor(earthRadius * c)
+          node.distance = distance(this.state.gateways.get(node.gw_mac), node.coordinates)
         } else{
           node.distance = 0
         }
@@ -112,7 +98,7 @@ class NodeLayer extends Component {
           deveui: node.deveui,
           rssi: node.gw_rssi,
           distance: node.distance,
-          snr: node.gw_snr,
+          snr: parseFloat(node.gw_snr).toFixed(1),
           radio: 'SF'+node.tx_spreadfactor+'BW'+node.tx_bandwidth,
           gateway: node.gw_mac,
           popupShowLabel: !this.state.popupShowLabel

@@ -15,6 +15,8 @@ import config from 'config'
 const app = express()
 const apiProxy = proxy.createProxyServer()
 
+// app.use("/", express.static(path.join(__dirname, 'static')));
+
 // api for history records
 app.get('/api/nodes/location', (req, res) => {
   pool.connect().then(client => {
@@ -35,14 +37,14 @@ app.get('/api/nodes/location', (req, res) => {
 
 })
 
-// redirect to golang server
+//redirect to golang server
 app.all('*', (req, res) => {
   console.log(`redirect to golang server`)
   config.get('proxy').agent = https.agent
   apiProxy.web(req, res, config.get('proxy'))
 })
 
-app.set('port', (process.env.PORT || 8899))
+app.set('port', (config.get('port') || 8899))
 
 
 const server = http.createServer(app)
