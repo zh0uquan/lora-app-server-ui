@@ -42,7 +42,6 @@ Leaflet.Icon.Default.imagePath = '//cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0
 
 //Overview
 import Overview from './components/Overview';
-
 import MapView from './views/maps/MapView';
 
 // styling
