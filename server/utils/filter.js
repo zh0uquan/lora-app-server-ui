@@ -8,8 +8,8 @@ const filter = (nodes) => {
   for (let node of nodes) {
     node = processNode(node)
     hashtable.set(
-      JSON.stringify(node.coordinates), (hashtable.get(JSON.stringify(node.coordinates)) || []).concat(node))
-  }
+      JSON.stringify(node.coordinates), (hashtable.get(JSON.stringify(node.coordinates)) || []).concat(node)
+  )}
 
   // get the lastest node infomation(rssi etc) of coordations
   // this should be optimazed by the gateway and device
@@ -18,6 +18,7 @@ const filter = (nodes) => {
     let dateDict = new Map()
     for (let node of hashtable.get(corrd)) {
       let diffDay = now.diff(moment(node.time), 'days')
+      node.diffDay = -1 * diffDay
       if ( dateDict.get(diffDay) === undefined ) {
         dateDict.set(diffDay, node)
       } else {
@@ -30,6 +31,7 @@ const filter = (nodes) => {
   }
 
   let res = valuesToArray(hashtable).reduce((arr, curr)=> arr.concat(curr), [])
+
   return res
 }
 

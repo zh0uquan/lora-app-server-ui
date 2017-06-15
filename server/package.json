@@ -10,18 +10,17 @@
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-stage-0": "^6.22.0",
     "body-parser": "^1.16.0",
-    "collections": "^5.0.6",
     "cors": "^2.8.3",
-    "dotenv": "^4.0.0",
     "express": "^4.14.1",
-    "express-ws": "^3.0.0",
     "http": "0.0.0",
     "http-proxy": "^1.16.2",
     "pg": "^6.1.5",
     "pg-pool": "^1.7.1",
     "ws": "^2.3.1",
     "moment": "^2.18.1",
-    "pg-pubsub": "^0.3.0"
+    "pg-pubsub": "^0.3.0",
+    "config": "^1.26.1",
+    "https": "^1.0.0"
   },
   "devDependencies": {
     "babel-register": "^6.22.0",

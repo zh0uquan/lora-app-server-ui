@@ -9,13 +9,13 @@ const processNode = (node) => {
   if (node.location !== null) {
     switch(typeof(node.location)) {
       case 'object':
-        node.coordinates = [node.location.y.toFixed(5), node.location.x.toFixed(5)]
+        node.coordinates = [node.location.y.toFixed(4), node.location.x.toFixed(4)]
         node.gw_mac = bufferToStr(node.gw_mac)
         node.deveui = bufferToStr(node.deveui)
         break;
       case 'string':
         let [lat, lon] = strToArray(node.location)
-        node.coordinates = [lon.toFixed(5), lat.toFixed(5)]
+        node.coordinates = [lon.toFixed(4), lat.toFixed(4)]
         node.gw_mac = node.gw_mac.substr(-16)
         node.deveui = node.deveui.substr(-16)
         break;

@@ -15,16 +15,17 @@ import config from 'config'
 const app = express()
 const apiProxy = proxy.createProxyServer()
 
-// app.use("/", express.static(path.join(__dirname, 'static')));
+app.use("/", express.static(path.join(__dirname, 'static')));
 
 // api for history records
 app.get('/api/nodes/location', (req, res) => {
   pool.connect().then(client => {
-    client.query('select * from packet where location is not null').then(result => {
+    client.query("select * from packet where location is not null and time >= (now() - '30 day'::INTERVAL)").then(result => {
       client.release()
       console.log('successfully queryed, well done!')
       var results = filterNodes(result.rows)
       var json = JSON.stringify(results)
+      // var json = JSON.stringify({})
       res.writeHead(200, {'content-type':'application/json', 'content-length':Buffer.byteLength(json)})
       res.end(json)
     })
